@@ -69,14 +69,14 @@ export default {
   methods: {
     login() {
       if (!this.$v.$invalid) {
-        alert("Logado!!")
+        alert("Logado!!");
         window.location.reload();
       } else {
         this.$v.$touch();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -219,6 +219,9 @@ export default {
   }
   .login-form {
     padding: 20px;
+  }
+  .login-form button #icon-arrow {
+    right: 35px;
   }
 }
 </style>
