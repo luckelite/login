@@ -46,7 +46,7 @@ export default {
 
         login.postData(this.email, this.password).then(response => {
           console.log(response.data)
-        })
+        }).catch(error => console.log(error.message))
         
       } else {
         this.$v.$touch()
@@ -92,7 +92,7 @@ export default {
   position: relative;
   background: url("../assets/images/sombra-login-lecdt.png"),
     linear-gradient(45deg, transparent, #1b1d27);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
   width: 400px;
   height: 100%;
   border-radius: 20px;
@@ -140,7 +140,7 @@ export default {
   margin-bottom: 20px;
   border: none;
   border-radius: 10px;
-  background: rgba(160, 160, 160, 0.3);
+  background: rgba(160, 160, 160, 0.1);
   backdrop-filter: blur(8px);
 }
 .login-form input::placeholder {
