@@ -8,40 +8,12 @@
         <p>Teste dos</p>
         <h1>Mestres</h1>
       </div>
-      <form class="login-form">
-        <p>
-          E-mail de Login<span>* </span
-          ><span id="verify" v-if="$v.email.$error">O email é requerido.</span>
-        </p>
-        <input
-          type="email"
-          placeholder="email@email.com"
-          v-model="email"
-          @change="$v.email.$touch()"
-        />
-
-        <p>
-          Senha de acesso<span
-            >*
-            <span id="verify" v-if="$v.password.$error"
-              >A senha é requirida.</span
-            ></span
-          >
-        </p>
-        <input
-          type="password"
-          placeholder="senha123#"
-          v-model="password"
-          @change="$v.password.$touch()"
-        />
-
-        <button type="submit" @click.prevent="login">
-          Entrar Agora<img
-            id="icon-arrow"
-            src="../assets/images/icone-seta-lecdt.svg"
-            alt="arrow"
-          />
-        </button>
+      <form class="login-form" @submit.prevent="entrar">
+        <p>E-mail de Login<span> * </span><span id="verify" v-if="$v.email.$error">O email é requerido.</span></p>
+        <input type="email" placeholder="email@email.com" v-model="email" @change="$v.email.$touch()"/>
+        <p>Senha de acesso<span> *<span id="verify" v-if="$v.password.$error">A senha é requirida.</span></span></p>
+        <input type="password" placeholder="senha123#" v-model="password" @change="$v.password.$touch()"/>
+        <button type="submit">Entrar Agora<img id="icon-arrow" src="../assets/images/icone-seta-lecdt.svg" alt="arrow"/></button>
       </form>
       <div class="create-login">
         <p>Não tem conta? <a href="/">Crie agora.</a></p>
@@ -52,12 +24,14 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
+import login from '../services/login'
 
 export default {
   data() {
     return {
       email: "",
       password: "",
+      datas: [],
       emailVerify: false,
       passwordVerify: false,
     };
@@ -67,12 +41,15 @@ export default {
     password: { required },
   },
   methods: {
-    login() {
-      if (!this.$v.$invalid) {
-        alert("Logado!!");
-        window.location.reload();
+    entrar() {
+      if(!this.$v.$invalid){
+
+        login.postData(this.email, this.password).then(response => {
+          console.log(response.data)
+        })
+        
       } else {
-        this.$v.$touch();
+        this.$v.$touch()
       }
     },
   },
@@ -116,8 +93,8 @@ export default {
   background: url("../assets/images/sombra-login-lecdt.png"),
     linear-gradient(45deg, transparent, #1b1d27);
   backdrop-filter: blur(10px);
-  width: 450px;
-  height: 500px;
+  width: 400px;
+  height: 100%;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -132,26 +109,24 @@ export default {
 }
 .title {
   text-align: center;
-  padding: 40px 0 20px 0;
+  padding: 40px 0 5px 0;
 }
 .title p {
   font-size: 1.2em;
 }
 .title h1 {
   font-family: "monster";
-  font-size: 40px;
+  font-size: 46px;
   letter-spacing: 2px;
-}
-#verify {
 }
 .login-form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px 40px;
+  padding: 20px 30px;
 }
 .login-form p {
-  font-size: 12px;
+  font-size: 10px;
   margin-bottom: 2px;
 }
 .login-form span {
@@ -161,10 +136,10 @@ export default {
   position: relative;
   width: 100%;
   height: 50px;
-  padding: 15px;
+  padding: 15px 20px;
   margin-bottom: 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   background: rgba(160, 160, 160, 0.3);
   backdrop-filter: blur(8px);
 }
@@ -174,14 +149,13 @@ export default {
 .login-form button {
   width: 100%;
   height: 50px;
-  padding: 15px;
-  margin: 10px 0;
+  padding: 15px 20px;
   font-family: "monster";
-  font-size: 25px;
+  font-size: 23px;
   letter-spacing: 1px;
   text-align: left;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   background: #005fff;
   color: #fff;
   display: flex;
@@ -198,7 +172,8 @@ export default {
 }
 .create-login {
   font-weight: bold;
-  font-size: 15px;
+  font-size: 13px;
+  padding-bottom: 50px;
 }
 .create-login a {
   color: #005fff;
@@ -215,6 +190,7 @@ export default {
     width: 100%;
   }
   .login-container {
+    height: 100%;
     width: 90%;
   }
   .login-form {
